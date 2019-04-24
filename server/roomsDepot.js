@@ -18,12 +18,12 @@ module.exports = {
         thisRoomIndex=ind;
       }
     }
+
       return thisRoomIndex;
   },
   // проверка уникальности пользователя, получаем число уникальных
   // пользователей в комнате
   participantsController: function(room,userId,userName) {
-    console.log(room.participants,room,userId,userName);
     let number;
     let newUSer = {
       id: userId,

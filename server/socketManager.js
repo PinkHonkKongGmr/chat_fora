@@ -38,7 +38,7 @@ module.exports = function(socket) {
   socket.on(USER_CONNECTED, (user) => {
     connectedUser = addUser(connectedUser, user)
     socket.user = user
-    console.log(connectedUser);
+    // console.log(connectedUser);
   })
   socket.on(MESSAGE_SENT, body => {
     let mes = body.body
@@ -58,6 +58,7 @@ module.exports = function(socket) {
     })
   })
   socket.on(NEW_ROOM, (route) => {
+    console.log('route',route);
     roomsDepot.buildRoom(route)
   })
   socket.on(JOIN_ROOM, (roomId, userId, userName) => {

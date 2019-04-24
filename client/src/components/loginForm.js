@@ -22,9 +22,12 @@ class LoginForm extends Component {
       this.props.setUser(user)
       this.setState({login:true})
       localStorage.setItem('name',user.name)
-      localStorage.setItem('id',user.id)
-      window.location.href=this.state.chatLink;
-      socket.emit(NEW_ROOM,this.props.id)
+      localStorage.setItem('id',user.id);
+      socket.emit(NEW_ROOM,this.props.id);
+      setTimeout(()=> {
+        window.location.href=this.state.chatLink;
+      }, 0);
+
     }
   }
   handleSubmit=event=>{
