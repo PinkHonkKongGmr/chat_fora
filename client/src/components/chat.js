@@ -22,6 +22,7 @@ class Chat extends React.Component {
   }
 
 // на этапе инициализации привязываем к рассылке сообщений от сервера
+  // фильтрация сообщений по комнатам(по id)
   initSocket = ()=>{
     const socket = io(socketUrl)
     socket.on(MESSAGE_SENT, message => {
@@ -46,9 +47,9 @@ class Chat extends React.Component {
   }
 
   render() {
-    // перед рендером создается компонент message из общего массива,
-    // содержащего сообщения, приходящего сервера. здесь происходит
-    // фильтрация сообщений по комнатам(по id)
+    // перед рендером создается компонент message из массива,который сформирован на сервере
+    // в соответсвующей комнате,
+    // содержащего сообщения, приходящего сервера.
     const {socket}=this.state;
     const id =this.props.id;
     const messages = this.state.messages.map((message, index) => {
