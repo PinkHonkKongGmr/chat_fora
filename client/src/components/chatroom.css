@@ -1,0 +1,8 @@
+.chatRoom {
+  display: flex;
+}
+
+.chatWindow li {
+  list-style: none;
+  color: white;
+}

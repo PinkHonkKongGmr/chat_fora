@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC|Cute+Font|Inconsolata');
+
+body {
+  background: #161a1e;
+  font-family: 'Amatic SC', cursive;
+  font-size: 140%;
+  padding: 20px;
+}
+
+.login {
+  margin: auto;
+  width: 400px;
+  padding-top: 140px;
+}
+
+h1 {
+  color: #fc2847;
+}
+
+.web {
+  font-family: 'Cute Font', cursive;
+}
+
+p {
+  font-size: 28px;
+  color: #ff033e;
+  font-weight: 600;
+}
+
+input {
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  height: 21px;
+  width: 400px;
+  background: #161a1e;
+  font-size: 23px;
+  padding: 3px;
+  color: red;
+  font-family: 'Amatic SC', cursive;
+}
+
+input::-webkit-input-placeholder {
+  color: rgba(255, 64, 64, 0.4);
+}
+
+input:-ms-input-placeholder {
+  color: rgba(255, 64, 64, 0.4);
+}
+
+input::-ms-input-placeholder {
+  color: rgba(255, 64, 64, 0.4);
+}
+
+input::placeholder {
+  color: rgba(255, 64, 64, 0.4);
+}

@@ -1,0 +1,43 @@
+{
+  "name": "chatroom_server",
+  "version": "1.0.0",
+  "description": "test task for semRush company",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "cross-env PORT=3001 node server.js",
+    "dev": "webpack&nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PinkHonkKongGmr/chat_fora.git"
+  },
+  "author": "Nickolaev Vladimir",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PinkHonkKongGmr/chat_fora.git/issues"
+  },
+  "homepage": "https://github.com/PinkHonkKongGmr/chat_fora.gitT#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/preset-react": "^7.0.0",
+    "autoprefixer": "^9.5.0",
+    "babel-loader": "^8.0.5",
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^2.1.1",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "pusher": "^2.2.0",
+    "socket.io": "^2.2.0"
+  }
+}
