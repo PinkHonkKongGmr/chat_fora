@@ -1,7 +1,8 @@
 // методы для управления патоками данных socket.io
 const io = require('./server.js').io;
-const rooms = require('./rooms.js')
-const roomsDepot = require('./roomsDepot.js')
+const rooms = require('./rooms.js');
+const users = require('./users.js')
+const finder = require('./finder.js');
 const {
   VERIFY_USER,
   USER_CONNECTED,
@@ -16,12 +17,11 @@ const {
   createMessage,
   createChat
 } = require('./factories')
-let connectedUser = {};
 
 
 module.exports = function(socket) {
-  socket.on(VERIFY_USER, (nickname, callback) => {
-    if (isUser(connectedUser, nickname)) {
+  socket.on(VERIFY_USER, (nickname, id, callback) => {
+    if (isUser(nickname, id)) {
       callback({
         isUser: true,
         user: null
@@ -36,7 +36,7 @@ module.exports = function(socket) {
     }
   })
   socket.on(USER_CONNECTED, (user) => {
-    connectedUser = addUser(connectedUser, user)
+    users.buildUser(user)
     socket.user = user
     // console.log(connectedUser);
   })
@@ -44,9 +44,8 @@ module.exports = function(socket) {
     let mes = body.body
     let sender = body.from;
     let roomId = body.chat;
-    let room = roomsDepot.findRoom(roomId);
-      const messages = roomsDepot.messageController(rooms.rooms[room],sender,mes)
-    console.log(messages);
+    let room = finder.findCurrent(rooms.rooms, roomId);
+    const messages = rooms.messageController(room, sender, mes)
 
     socket.broadcast.emit(MESSAGE_SENT, {
       messageArray: messages,
@@ -58,27 +57,21 @@ module.exports = function(socket) {
     })
   })
   socket.on(NEW_ROOM, (route) => {
-    roomsDepot.buildRoom(route)
+    rooms.buildRoom(route)
   })
   // Получаем сигнал о подключении пользователя
   // Проверем уникальность пользователя в комнате, если уникален - вносим
   // Обновляем список пользователей
   socket.on(JOIN_ROOM, (roomId, userId, userName) => {
     let participants;
-    let room = roomsDepot.findRoom(roomId);
+    let room = finder.findCurrent(rooms.rooms, roomId);
     if (room) {
-    roomsDepot.participantsController(rooms.rooms[room],userId,userName);
-    participants = rooms.rooms[room].participants;
+      rooms.participantsController(room, userId, userName);
+      participants = rooms.rooms[room].participants;
     }
-    socket.broadcast.emit(JOIN_ROOM,roomId,participants)
-    socket.emit(JOIN_ROOM,roomId,participants)
+    socket.broadcast.emit(JOIN_ROOM, roomId, participants)
+    socket.emit(JOIN_ROOM, roomId, participants)
   })
-}
-
-function addUser(userList, user) {
-  let newList = Object.assign({}, userList)
-  newList[user.name] = user
-  return newList
 }
 
 function removeUser(userList, username) {
@@ -87,6 +80,14 @@ function removeUser(userList, username) {
   return newList
 }
 
-function isUser(userList, username) {
-  return username in userList
+function isUser(username, id) {
+
+  let user = finder.findCurrent(users.users, username);
+  console.log(user,users.users);
+  if (!user||users.users[user].id==id) {
+    return false;
+  }
+  else {
+    return true;
+  }
 }

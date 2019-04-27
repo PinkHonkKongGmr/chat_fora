@@ -13,6 +13,7 @@ class LoginForm extends Component {
   }
 
   setUser=({user,isUser})=>{
+    console.log(isUser);
     if(isUser)
     {
       this.setError('такой волчонок уже есть')
@@ -34,7 +35,7 @@ class LoginForm extends Component {
     event.preventDefault();
     const {socket} = this.props
     const {nickname} = this.state
-    socket.emit(VERIFY_USER,nickname,this.setUser)
+    socket.emit(VERIFY_USER,nickname,localStorage.getItem('id'),this.setUser)
   }
   handleChange=event=>{
     this.setState({nickname:event.target.value})

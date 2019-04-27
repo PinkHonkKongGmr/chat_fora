@@ -72,7 +72,6 @@ export default class Stream extends Component {
   if (this.state.participants!==null) {
     for (let i = 0; i < this.state.participants.length; i++) {
          if (this.state.participants[i].id!=this.user.id) {
-           console.log(this.state.participants[i].id,this.user.id);
            this.users.push(this.state.participants[i])
             }
           }
@@ -104,7 +103,6 @@ export default class Stream extends Component {
   }
 
   startPeer(userId, initiator = true) {
-    console.log('go');
     const peer = new Peer({
       initiator,
       stream: this.user.stream,
@@ -125,6 +123,7 @@ export default class Stream extends Component {
       } catch (e) {
         this.userVideo.src = URL.createObjectURL(stream);
       }
+      console.log('go');
       this.userVideo.play();
     });
 
@@ -141,7 +140,6 @@ export default class Stream extends Component {
   }
 
   callTo(userId) {
-    console.log('run');
     this.peers[userId] = this.startPeer(userId);
   }
 
@@ -166,7 +164,6 @@ export default class Stream extends Component {
         return (
             <div className="streamWindow">
                 {this.users.map((user) => {
-                  console.log(user);
                     return this.user.id !== user.id ? <button className="btn btn-outline-warning" key={user.id} onClick={() => this.callTo(user.id)}>Call {user.name}</button> : null;
                 })}
                 <div className='participants'>количество участников:{participantsNumber}</div>
