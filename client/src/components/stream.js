@@ -71,7 +71,7 @@ export default class Stream extends Component {
     this.users=[];
   if (this.state.participants!==null) {
     for (let i = 0; i < this.state.participants.length; i++) {
-         this.users.push(i)
+         this.users.push(this.state.participants[i])
           }
        }
      }
@@ -162,8 +162,9 @@ export default class Stream extends Component {
         }
         return (
             <div className="streamWindow">
-                {this.users.map((userId) => {
-                    return this.user.id !== userId ? <button className="btn btn-outline-warning" key={userId} onClick={() => this.callTo(userId)}>Call {userId}</button> : null;
+                {this.users.map((user) => {
+                  console.log(user);
+                    return this.user.id !== user.id ? <button className="btn btn-outline-warning" key={user.id} onClick={() => this.callTo(user.id)}>Call {user.name}</button> : null;
                 })}
                 <div className='participants'>количество участников:{participantsNumber}</div>
                 {participants}
