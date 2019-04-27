@@ -18,7 +18,7 @@ export default class Stream extends Component {
       participants:null
     };
 
-    this.user = {id:Math.round(0 - 2000 + Math.random() * 6000000)}
+    this.user = {id:localStorage.getItem('id')};
     this.user.stream = null;
     this.users=[];
     this.peers = {};
@@ -71,7 +71,10 @@ export default class Stream extends Component {
     this.users=[];
   if (this.state.participants!==null) {
     for (let i = 0; i < this.state.participants.length; i++) {
-         this.users.push(this.state.participants[i])
+         if (this.state.participants[i].id!=this.user.id) {
+           console.log(this.state.participants[i].id,this.user.id);
+           this.users.push(this.state.participants[i])
+            }
           }
        }
      }
