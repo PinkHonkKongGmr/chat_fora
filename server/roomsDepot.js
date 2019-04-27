@@ -40,7 +40,7 @@ module.exports = {
     return number;
   },
   messageController:function(room,from,message){
-    let msg = from+':'+message
+    let msg=`${from}:${message}`;
     room.messages.push(msg);
     return room.messages
   }
