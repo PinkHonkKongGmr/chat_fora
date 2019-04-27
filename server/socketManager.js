@@ -58,9 +58,11 @@ module.exports = function(socket) {
     })
   })
   socket.on(NEW_ROOM, (route) => {
-    console.log('route',route);
     roomsDepot.buildRoom(route)
   })
+  // Получаем сигнал о подключении пользователя
+  // Проверем уникальность пользователя в комнате, если уникален - вносим
+  // Обновляем список пользователей
   socket.on(JOIN_ROOM, (roomId, userId, userName) => {
     let participants;
     let room = roomsDepot.findRoom(roomId);
