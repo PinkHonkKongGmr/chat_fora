@@ -7,6 +7,7 @@
   const socketManager = require('./socketManager');
   const bodyParser = require('body-parser');
   const Pusher = require('pusher');
+  const uuidv4 =require('uuid/v4');
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
@@ -36,7 +37,7 @@
     const socketId = req.body.socket_id;
     const channel = req.body.channel_name;
     const presenceData = {
-      user_id: Math.random().toString(36).slice(2) + Date.now()
+      user_id: uuidv4()
     }
     const auth = pusher.authenticate(socketId, channel, presenceData);
     res.send(auth);
