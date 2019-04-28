@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import {USER_CONNECTED,LOGOUT} from '../events';
 import LoginForm from './loginForm';
 const socketUrl='http://localhost:5000';
+const uuidv4 =require('uuid/v4');
 export default class Layout extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,7 @@ export default class Layout extends Component {
 // зашел с главной
   componentWillMount(){
     this.initSocket()
-    !this.props.id?this.setState({chatLink:this.getId()}):this.setState({chatLink:this.props.id})
+    !this.props.id?this.setState({chatLink:uuidv4()}):this.setState({chatLink:this.props.id})
   }
 
   initSocket = ()=>{
@@ -36,11 +37,6 @@ export default class Layout extends Component {
     const{socket}=this.state
     socket.emit(LOGOUT)
     this.setState({user:null})
-  }
-
-  getId =()=>
-  {
-    return Math.round(0 - 2000 + Math.random() * 6000000)+"e"+Math.round(0 - 20 + Math.random() * 900)+"rr"+Math.round(0 - 900000 + Math.random() * 7000);
   }
 
   render() {
