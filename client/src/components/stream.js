@@ -20,7 +20,6 @@ export default class Stream extends Component {
 
     this.user = {id:localStorage.getItem('id')};
     this.user.stream = null;
-    this.users=[];
     this.peers = {};
 
     this.mediaHandler = new MediaHandler();
@@ -45,7 +44,6 @@ export default class Stream extends Component {
         this.setState({
           participants: participants
         });
-        this.participantsAdder();
       }
     })
 
@@ -65,17 +63,6 @@ export default class Stream extends Component {
         this.myVideo.play();
       })
   }
-// отрисовка кнопок звонка идет через массив, котроый содержит айди для пиров
-  participantsAdder(){
-    this.users=[];
-  if (this.state.participants!==null) {
-    for (let i = 0; i < this.state.participants.length; i++) {
-         if (this.state.participants[i].id!=this.user.id) {
-           this.users.push(this.state.participants[i])
-            }
-          }
-       }
-     }
 
   setupPusher() {
       this.pusher = new Pusher('fd3df13aec3b16a9a3af', {
@@ -147,16 +134,14 @@ export default class Stream extends Component {
     // [пользователи, покинувшие чат пока не учитываются]
     // также проверяется установлен ли стейт с участгиками чатрума, воизбежание ошибок
         let participants;
-        let buttons;
         let participantsNumber;
         this.state.participants==null?participantsNumber=0:participantsNumber=this.state.participants.length;
         if(this.state.participants!==null){
-          buttons=this.users.map((user) => {
-              return this.user.id !== user.id ? <button className="btn btn-outline-warning" key={user.id} onClick={() => this.callTo(user.id)}>Call {user.name}</button> : null;
-          })
            participants= this.state.participants.map((participant,index)=>{
              return<span key={index}>
              <span className='participants'>{participant.name}</span>
+              {this.user.id !== participant.id ? <button className="btn btn-outline-warning" key={participant.id} onClick={() =>
+              this.callTo(participant.id)}>Call {participant.name}</button> : null}
              </span>
            })
         }
@@ -165,7 +150,6 @@ export default class Stream extends Component {
         }
         return (
             <div className="streamWindow">
-                {buttons}
                 <div className='participants'>количество участников:{participantsNumber}</div>
                 {participants}
                 <div className="video-container"></div>
