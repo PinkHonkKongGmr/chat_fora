@@ -25,11 +25,12 @@ const createChat =({messages=[],name='Community',user=[]}={})=>({
 
 const getTime =(date)=>
 {
-  return '${date.getHours()}:${("0"+date.getMinutes()).slice(-2)}'
+  return `${date.getHours()}:${("0"+date.getMinutes()).slice(-2)}`
 }
 
 module.exports ={
   createMessage,
   createChat,
-  createUser
+  createUser,
+  getTime
 }

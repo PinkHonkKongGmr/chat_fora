@@ -1,3 +1,6 @@
+const {
+  getTime
+} = require('./factories')
 // Здесь хранятся комнаты
 module.exports = {
   rooms: [],
@@ -9,12 +12,12 @@ module.exports = {
       id: route,
       numbers: 0,
       participants: [],
-      messages:[]
+      messages: []
     })
   },
   // проверка уникальности пользователя, получаем число уникальных
   // пользователей в комнате
-  participantsController: function(num,userId,userName) {
+  participantsController: function(num, userId, userName) {
     let number;
     let newUSer = {
       id: userId,
@@ -30,8 +33,8 @@ module.exports = {
     number = this.rooms[num].participants.length;
     return number;
   },
-  messageController:function(num,from,message){
-    let msg=`${from}:${message}`;
+  messageController: function(num, from, message) {
+    let msg = `[${getTime(new Date(Date.now()))}]_${from}:${message}`;
     this.rooms[num].messages.push(msg);
     return this.rooms[num].messages
   }
