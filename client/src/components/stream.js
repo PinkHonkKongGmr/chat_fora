@@ -66,7 +66,6 @@ export default class Stream extends Component {
       })
   }
 // отрисовка кнопок звонка идет через массив, котроый содержит айди для пиров
-// пока содержит номера, подлежит замене когда как следует разберусь с механизмом пиров
   participantsAdder(){
     this.users=[];
   if (this.state.participants!==null) {
@@ -148,24 +147,25 @@ export default class Stream extends Component {
     // [пользователи, покинувшие чат пока не учитываются]
     // также проверяется установлен ли стейт с участгиками чатрума, воизбежание ошибок
         let participants;
+        let buttons;
         let participantsNumber;
         this.state.participants==null?participantsNumber=0:participantsNumber=this.state.participants.length;
         if(this.state.participants!==null){
+          buttons=this.users.map((user) => {
+              return this.user.id !== user.id ? <button className="btn btn-outline-warning" key={user.id} onClick={() => this.callTo(user.id)}>Call {user.name}</button> : null;
+          })
            participants= this.state.participants.map((participant,index)=>{
              return<span key={index}>
              <span className='participants'>{participant.name}</span>
              </span>
            })
-
         }
         if(this.state.participants==null) {
           participants = <b></b>
         }
         return (
             <div className="streamWindow">
-                {this.users.map((user) => {
-                    return this.user.id !== user.id ? <button className="btn btn-outline-warning" key={user.id} onClick={() => this.callTo(user.id)}>Call {user.name}</button> : null;
-                })}
+                {buttons}
                 <div className='participants'>количество участников:{participantsNumber}</div>
                 {participants}
                 <div className="video-container"></div>
