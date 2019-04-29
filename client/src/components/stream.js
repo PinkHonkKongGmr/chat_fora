@@ -55,6 +55,7 @@ export default class Stream extends Component {
         this.user.stream = stream;
 
         try {
+
           this.myVideo.srcObject = stream;
         } catch (e) {
           this.myVideo.src = URL.createObjectURL(stream);
@@ -68,14 +69,15 @@ export default class Stream extends Component {
       this.pusher = new Pusher('fd3df13aec3b16a9a3af', {
         cluster: 'eu',
         authEndpoint: 'http://localhost:5000/pusher/auth',
-        forceTLS: true
+        forceTLS: true,
+        auth: {
+               params: this.user.id
+               }
       });
     this.channel = this.pusher.subscribe('presence-videocall');
 
     this.channel.bind(`client-signal-${this.user.id}`, (signal) => {
-
       let peer = this.peers[signal.userId];
-
       // проверка создан ли уже данный пир, если создан - совершается звонок
       if (peer === undefined) {
         this.setState({
@@ -83,7 +85,6 @@ export default class Stream extends Component {
         });
         peer = this.startPeer(signal.userId, false);
       }
-
       peer.signal(signal.data);
     });
   }
@@ -104,12 +105,12 @@ export default class Stream extends Component {
     });
 
     peer.on('stream', (stream) => {
+  
       try {
         this.userVideo.srcObject = stream;
       } catch (e) {
         this.userVideo.src = URL.createObjectURL(stream);
       }
-      console.log('go');
       this.userVideo.play();
     });
 
