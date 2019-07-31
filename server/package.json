@@ -1,11 +1,11 @@
 {
   "name": "chatroom_server",
   "version": "1.0.0",
-  "description": "test task for semRush company",
+  "description": "chat+videoChat",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "cross-env PORT=3001 node server.js",
+    "start": "cross-env PORT=5000 node server.js",
     "dev": "webpack&nodemon server.js"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
+    "cross-env": "^5.2.0",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",

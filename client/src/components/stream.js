@@ -1,7 +1,6 @@
 // Здесь происходит отрисовка видеосвязи, ее установление
 // учет пользователей происходит тоже тут
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import MediaHandler from './mediaHandler';
 import {JOIN_ROOM} from '../events';
 import Pusher from 'pusher-js';
@@ -30,7 +29,11 @@ export default class Stream extends Component {
     this.startPeer = this.startPeer.bind(this);
   }
 
+  
+
+
   componentWillMount() {
+    console.log(this.user.id);
     const socket=this.props.socket;
 // при подключении пользователя его данные отправляются на сервер, вместе с данными
 // комнаты, для установления уникальности
@@ -40,7 +43,7 @@ export default class Stream extends Component {
 // фильтрация пользовтаеля по комнате,
 // при сопастовлении идет в добавок
     socket.on(JOIN_ROOM, (roomId,participants) => {
-      if (roomId==this.props.id) {
+      if (roomId===this.props.id) {
         this.setState({
           participants: participants
         });
@@ -77,6 +80,7 @@ export default class Stream extends Component {
     this.channel = this.pusher.subscribe('presence-videocall');
 
     this.channel.bind(`client-signal-${this.user.id}`, (signal) => {
+      console.log("клиент сигнал");
       let peer = this.peers[signal.userId];
       // проверка создан ли уже данный пир, если создан - совершается звонок
       if (peer === undefined) {
@@ -90,6 +94,7 @@ export default class Stream extends Component {
   }
 
   startPeer(userId, initiator = true) {
+    console.log("старт_пир");
     const peer = new Peer({
       initiator,
       stream: this.user.stream,
@@ -97,6 +102,7 @@ export default class Stream extends Component {
     });
 
     peer.on('signal', (data) => {
+      console.log("сигнал");
       this.channel.trigger(`client-signal-${userId}`, {
         type: 'signal',
         userId: this.user.id,
@@ -105,12 +111,21 @@ export default class Stream extends Component {
     });
 
     peer.on('stream', (stream) => {
-  
+      
+      
       try {
-        this.userVideo.srcObject = stream;
+        let confirmToPlay = window.confirm('запустить стрим пользователя?');
+        if(confirmToPlay){
+          this.userVideo.srcObject = stream; 
+        }
+        else{
+          return;
+        }
+        
       } catch (e) {
-        this.userVideo.src = URL.createObjectURL(stream);
+        this.userVideo.srcObject = stream;
       }
+      ;
       this.userVideo.play();
     });
 
@@ -155,8 +170,8 @@ export default class Stream extends Component {
                 {participants}
                 <div className="video-container"></div>
                 <div className="video-container">
-                    <video className="my-video" ref={(ref) => {this.myVideo = ref;}}></video>
-                    <video className="user-video" ref={(ref) => {this.userVideo = ref;}}></video>
+                    <video autoPlay playsInline className="my-video" ref={(ref) => {this.myVideo = ref;}}></video>
+                    <video autoPlay playsInline className="user-video" ref={(ref) => {this.userVideo = ref;}}></video>
                 </div>
             </div>
         );

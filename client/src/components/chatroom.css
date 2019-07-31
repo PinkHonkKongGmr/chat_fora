@@ -1,8 +1,50 @@
 .chatRoom {
   display: flex;
+  justify-content: space-between;
 }
+
+.chatWindow {
+  margin-top: 20px;
+  height: 400px;
+  overflow-y: auto;
+  position: relative;
+}
+
+
 
 .chatWindow li {
   list-style: none;
   color: white;
+}
+
+::-webkit-scrollbar-button {
+background-image:url('');
+background-repeat:no-repeat;
+width:5px;
+height:0px
+}
+
+::-webkit-scrollbar-track {
+background-color:#ecedee
+}
+
+::-webkit-scrollbar-thumb {
+-webkit-border-radius: 0px;
+border-radius: 0px;
+background-color:#ff033e;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background-color:#ff033e;
+}
+
+::-webkit-resizer{
+background-image:url('');
+background-repeat:no-repeat;
+width:4px;
+height:0px
+}
+
+::-webkit-scrollbar{
+width: 4px;
 }

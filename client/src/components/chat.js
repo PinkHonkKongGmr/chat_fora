@@ -21,6 +21,11 @@ class Chat extends React.Component {
     this.initSocket()
   }
 
+  componentDidUpdate(){
+    this.chatWindowRef.scrollTop = this.chatWindowRef.scrollHeight;
+  }
+  
+
 // на этапе инициализации привязываем к рассылке сообщений от сервера
   // фильтрация сообщений по комнатам(по id)
   initSocket = ()=>{
@@ -64,14 +69,18 @@ class Chat extends React.Component {
         <h1>ЧАт волчат</h1>
         <div className='chatRoom'>
           <Stream socket={socket} id={id}></Stream>
-          <div className='chatWindow'>
-            <form  onSubmit={this.handleSubmit}>
+          <div>
+          <form  onSubmit={this.handleSubmit}>
               <input
                 id='input'
                 type="text"
                 placeholder='Enter a message'/>
             </form>
+          <div 
+          ref={(chatWindowRef)=>this.chatWindowRef=chatWindowRef}
+          className='chatWindow'>
             {messages}
+          </div>
           </div>
         </div>
       </div>
